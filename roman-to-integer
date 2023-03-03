@@ -1,0 +1,59 @@
+def romanToInt(s: str) -> int:
+    # Symbol       Value
+    # I             1
+    # V             5
+    # X             10
+    # L             50
+    # C             100
+    # D             500
+    # M             1000
+
+    # I can be placed before V (5) and X (10) to make 4 and 9. 
+    # X can be placed before L (50) and C (100) to make 40 and 90. 
+    # C can be placed before D (500) and M (1000) to make 400 and 900.
+
+    # Constraints:
+    #     1 <= s.length <= 15
+    #     s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M').
+    #     It is guaranteed that s is a valid roman numeral in the range [1, 3999].
+
+
+
+    string_upper = s.upper()
+    string_length = len(s)
+    # roman_numerals = ('I', 'V', 'X', 'L', 'C', 'D', 'M')
+
+    roman_numerals = dict(I=1, V=5, X=10, L=50, C=100, D=500, M=1000)
+    allowed_chars = list(roman_numerals.keys())
+
+    # constraints:
+    if string_length < 1:
+        raise Exception('Please provide at least one character')
+    if string_length > 15:
+        raise Exception('String too long. Maximum allowd is 15 characters.')
+    
+    if not any(char in allowed_chars for char in list(set(string_upper))):
+        raise Exception(f'Please provide one of the Roman numeral: {allowed_chars}')
+
+
+    result = 0
+    prev_value = 0
+    for char in string_upper[::-1]:
+        curr_value = roman_numerals[char]
+        if curr_value < prev_value:
+            result -= curr_value
+        else:
+            result += curr_value
+        prev_value = curr_value
+    return result
+
+
+
+if __name__ == '__main__':
+    s = romanToInt('MMXXIII')
+    print(s)
+
+        
+        
+
+        
